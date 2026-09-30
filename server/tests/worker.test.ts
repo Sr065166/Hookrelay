@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import { prisma } from '../src/config/database';
 import { createTestUserAndOrg } from './helpers';
 import { processDeliveries } from '../src/worker';
@@ -10,6 +10,12 @@ describe('Worker Tests', () => {
   let receivedRequests: { headers: any, body: string }[] = [];
   let serverStatus = 500;
   let serverPort = 0;
+
+  beforeEach(async () => {
+    await prisma.delivery.deleteMany();
+    serverStatus = 500;
+    receivedRequests = [];
+  });
 
   beforeAll(async () => {
     server = http.createServer((req, res) => {
@@ -23,7 +29,7 @@ describe('Worker Tests', () => {
     });
     
     await new Promise<void>((resolve) => {
-      server.listen(0, () => {
+      server.listen(0, '127.0.0.1', () => {
         serverPort = (server.address() as any).port;
         resolve();
       });
@@ -45,7 +51,7 @@ describe('Worker Tests', () => {
     const ep = await prisma.endpoint.create({
       data: {
         organizationId: org.id,
-        url: `http://localhost:${serverPort}/test1`,
+        url: `http://127.0.0.1:${serverPort}/test1`,
         eventsSubscribed: ['*'],
         secret,
       }
@@ -92,7 +98,7 @@ describe('Worker Tests', () => {
     const ep = await prisma.endpoint.create({
       data: {
         organizationId: org.id,
-        url: `http://localhost:${serverPort}/test2`,
+        url: `http://127.0.0.1:${serverPort}/test2`,
         eventsSubscribed: ['*'],
         secret: 'sec',
       }
@@ -147,7 +153,7 @@ describe('Worker Tests', () => {
     const ep = await prisma.endpoint.create({
       data: {
         organizationId: org.id,
-        url: `http://localhost:${serverPort}/test3`,
+        url: `http://127.0.0.1:${serverPort}/test3`,
         eventsSubscribed: ['*'],
         secret: 'sec',
       }

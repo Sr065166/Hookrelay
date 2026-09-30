@@ -232,3 +232,19 @@ HookRelay guarantees **at-least-once delivery** for active endpoints:
      - Retry 4: ~2 hours
      - Retry 5-9: Incremental backoff maxing out based on jitter
    - If all retries are exhausted, the delivery status is marked as `FAILED` and an alert is recorded.
+
+## Deployment Configuration
+
+The following environment variables must be configured in production:
+
+- `PORT`: The port the server will bind to (e.g., 4000).
+- `NODE_ENV`: Must be set to `production`.
+- `DATABASE_URL`: Connection string to the production PostgreSQL database.
+- `CLIENT_URL`: The URL of the production frontend (e.g., `https://hookrelay-web.onrender.com`). Required for CORS.
+- `JWT_ACCESS_SECRET`: Secure, randomly generated secret (min 64 chars) for signing access tokens.
+- `JWT_REFRESH_SECRET`: Secure, randomly generated secret (min 64 chars) for signing refresh tokens.
+- `JWT_ACCESS_EXPIRES_IN`: Expiration duration for access tokens (e.g., `15m`).
+- `JWT_REFRESH_EXPIRES_IN`: Expiration duration for refresh tokens (e.g., `7d`).
+
+Note: The worker runs in the same process as the web server when `NODE_ENV !== 'test'`, which makes it compatible with Render's single Web Service architecture.
+
