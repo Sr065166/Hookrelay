@@ -1,0 +1,26 @@
+{
+  "name": "hookrelay-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev --workspace=server",
+    "dev:web": "npm run dev --workspace=web",
+    "build:server": "npm run build --workspace=server",
+    "build:web": "npm run build --workspace=web",
+    "build": "npm run build --workspace=server && npm run build --workspace=web",
+    "test:server": "npm run test --workspace=server",
+    "test": "npm run test --workspace=server",
+    "lint:server": "npm run lint --workspace=server",
+    "lint:web": "npm run lint --workspace=web",
+    "lint": "npm run lint --workspace=server && npm run lint --workspace=web",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.5.2"
+  }
+}
