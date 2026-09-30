@@ -1,11 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { AuthService } from '../services/auth.service.js';
+import { AuthService } from '../services/auth.service';
 import {
   registerSchema,
   loginSchema,
   refreshSchema,
-} from '../validators/auth.validator.js';
-import { requireAuth } from '../middleware/auth.middleware.js';
+} from '../validators/auth.validator';
+import { requireAuth } from '../middleware/auth.middleware';
 
 export const authRouter = Router();
 

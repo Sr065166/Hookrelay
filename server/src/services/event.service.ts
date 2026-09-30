@@ -1,6 +1,6 @@
-import { prisma } from '../config/database.js';
-import { ConflictError } from '../errors/AppError.js';
-import type { CreateEventInput } from '../validators/event.validator.js';
+import { prisma } from '../config/database';
+import { ConflictError, NotFoundError, BadRequestError } from '../errors/AppError';
+import type { CreateEventInput } from '../validators/event.validator';
 
 export class EventService {
   /**
@@ -122,6 +122,36 @@ export class EventService {
       prisma.delivery.count({ where }),
     ]);
     return { items, total, page, limit, totalPages: Math.ceil(total / limit) };
+  }
+
+  /**
+   * Manually replay a delivery by resetting it to PENDING.
+   */
+  static async replayDelivery(organizationId: string, deliveryId: string) {
+    const delivery = await prisma.delivery.findFirst({
+      where: {
+        id: deliveryId,
+        event: { organizationId },
+      },
+    });
+
+    if (!delivery) {
+      throw new NotFoundError('Delivery not found');
+    }
+
+    if (delivery.status !== 'FAILED') {
+      throw new BadRequestError('Only FAILED deliveries can be replayed');
+    }
+
+    return prisma.delivery.update({
+      where: { id: deliveryId },
+      data: {
+        status: 'PENDING',
+        attemptsCount: 0,
+        nextRetryAt: new Date(),
+        lockedAt: null,
+      },
+    });
   }
 }
 

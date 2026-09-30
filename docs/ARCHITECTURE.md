@@ -225,10 +225,10 @@ HookRelay guarantees **at-least-once delivery** for active endpoints:
 3. **Non-Retryable Failures**:
    - HTTP `4xx` (except 429), indicating bad payload format or invalid URL.
 4. **Backoff Schedule**:
-   - Up to 5 retries spaced with exponential backoff and randomized jitter:
+   - Up to 10 attempts spaced with exponential backoff and randomized jitter:
      - Retry 1: ~1 minute
      - Retry 2: ~5 minutes
      - Retry 3: ~30 minutes
      - Retry 4: ~2 hours
-     - Retry 5: ~5 hours
+     - Retry 5-9: Incremental backoff maxing out based on jitter
    - If all retries are exhausted, the delivery status is marked as `FAILED` and an alert is recorded.

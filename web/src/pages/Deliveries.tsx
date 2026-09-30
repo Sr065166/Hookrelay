@@ -10,7 +10,7 @@ export function Deliveries() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!activeOrgId) return;
+    if (!activeOrgId) { setLoading(false); return; }
     const loadDeliveries = async () => {
       try {
         setLoading(true);

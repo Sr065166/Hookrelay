@@ -10,7 +10,7 @@ export function Events() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!activeOrgId) return;
+    if (!activeOrgId) { setLoading(false); return; }
     const loadEvents = async () => {
       try {
         setLoading(true);

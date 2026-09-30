@@ -19,7 +19,7 @@ export function Endpoints() {
   const canDelete = activeRole && ['OWNER', 'ADMIN'].includes(activeRole);
 
   const loadEndpoints = async () => {
-    if (!activeOrgId) return;
+    if (!activeOrgId) { setLoading(false); return; }
     try {
       setLoading(true);
       const data = await fetchApi(`/orgs/${activeOrgId}/endpoints?limit=50`);

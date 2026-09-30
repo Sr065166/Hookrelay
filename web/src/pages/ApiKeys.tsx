@@ -18,7 +18,7 @@ export function ApiKeys() {
   const canManageKeys = activeRole && ['OWNER', 'ADMIN', 'DEVELOPER'].includes(activeRole);
 
   const loadKeys = async () => {
-    if (!activeOrgId) return;
+    if (!activeOrgId) { setLoading(false); return; }
     try {
       setLoading(true);
       const data = await fetchApi(`/orgs/${activeOrgId}/api-keys`);

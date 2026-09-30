@@ -1,14 +1,14 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Role } from '@prisma/client';
-import { EndpointService } from '../services/endpoint.service.js';
-import { requireAuth } from '../middleware/auth.middleware.js';
-import { requireRole } from '../middleware/rbac.middleware.js';
-import { ssrfProtection } from '../middleware/ssrf.middleware.js';
+import { EndpointService } from '../services/endpoint.service';
+import { requireAuth } from '../middleware/auth.middleware';
+import { requireRole } from '../middleware/rbac.middleware';
+import { ssrfProtection } from '../middleware/ssrf.middleware';
 import {
   createEndpointSchema,
   updateEndpointSchema,
-} from '../validators/endpoint.validator.js';
-import { paginationSchema } from '../validators/event.validator.js';
+} from '../validators/endpoint.validator';
+import { paginationSchema } from '../validators/event.validator';
 
 // Routes are mounted under /v1/orgs/:orgId/endpoints
 export const endpointRouter = Router({ mergeParams: true });

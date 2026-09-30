@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { BadRequestError } from '../errors/AppError.js';
+import { BadRequestError } from '../errors/AppError';
 
 // Private/reserved IP ranges and loopback patterns for SSRF protection
 const BLOCKED_HOSTNAMES = /^(localhost|.*\.local|.*\.internal)$/i;

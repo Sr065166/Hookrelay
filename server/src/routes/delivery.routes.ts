@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Role } from '@prisma/client';
-import { EventService } from '../services/event.service.js';
-import { requireAuth } from '../middleware/auth.middleware.js';
-import { requireRole } from '../middleware/rbac.middleware.js';
-import { paginationSchema } from '../validators/event.validator.js';
+import { EventService } from '../services/event.service';
+import { requireAuth } from '../middleware/auth.middleware';
+import { requireRole } from '../middleware/rbac.middleware';
+import { paginationSchema } from '../validators/event.validator';
 import { z } from 'zod';
 
 // Routes are mounted under /v1/orgs/:orgId/deliveries
@@ -28,6 +28,23 @@ deliveryRouter.get(
         status,
         endpointId,
       });
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+// POST /v1/orgs/:orgId/deliveries/:id/replay
+deliveryRouter.post(
+  '/:id/replay',
+  requireAuth,
+  requireRole([Role.OWNER, Role.ADMIN, Role.DEVELOPER]),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const deliveryId = req.params.id;
+      // Re-queue the delivery by setting status back to PENDING and nextRetryAt to now
+      const result = await EventService.replayDelivery(req.orgId!, deliveryId);
       res.json(result);
     } catch (err) {
       next(err);

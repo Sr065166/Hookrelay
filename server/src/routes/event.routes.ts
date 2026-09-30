@@ -1,10 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { EventService } from '../services/event.service.js';
-import { requireApiKey } from '../middleware/auth.middleware.js';
-import { requireAuth } from '../middleware/auth.middleware.js';
-import { requireRole } from '../middleware/rbac.middleware.js';
+import { EventService } from '../services/event.service';
+import { requireApiKey } from '../middleware/auth.middleware';
+import { requireAuth } from '../middleware/auth.middleware';
+import { requireRole } from '../middleware/rbac.middleware';
 import { Role } from '@prisma/client';
-import { createEventSchema, paginationSchema } from '../validators/event.validator.js';
+import { createEventSchema, paginationSchema } from '../validators/event.validator';
 
 // Routes are mounted under /v1/events (API key auth) and /v1/orgs/:orgId/events (JWT auth)
 export const eventIngestRouter = Router({ mergeParams: true });

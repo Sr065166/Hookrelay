@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Role } from '@prisma/client';
-import { prisma } from '../config/database.js';
-import { ForbiddenError, UnauthorizedError } from '../errors/AppError.js';
+import { prisma } from '../config/database';
+import { ForbiddenError, UnauthorizedError } from '../errors/AppError';
 
 /**
  * Middleware: Require that the authenticated user has at least one of the

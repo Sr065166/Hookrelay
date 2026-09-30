@@ -1,9 +1,9 @@
 import { randomBytes } from 'crypto';
 import { EndpointStatus } from '@prisma/client';
-import { prisma } from '../config/database.js';
-import { NotFoundError } from '../errors/AppError.js';
-import { validateEndpointUrl } from '../middleware/ssrf.middleware.js';
-import type { CreateEndpointInput, UpdateEndpointInput } from '../validators/endpoint.validator.js';
+import { prisma } from '../config/database';
+import { NotFoundError } from '../errors/AppError';
+import { validateEndpointUrl } from '../middleware/ssrf.middleware';
+import type { CreateEndpointInput, UpdateEndpointInput } from '../validators/endpoint.validator';
 
 function generateSecret(): string {
   return randomBytes(32).toString('hex');

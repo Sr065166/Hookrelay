@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 import { Prisma } from '@prisma/client';
-import { AppError } from '../errors/AppError.js';
+import { AppError } from '../errors/AppError';
 
 /**
  * Uniform JSON error response:

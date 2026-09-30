@@ -2,11 +2,11 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { requestLogger } from './middleware/requestLogger.middleware.js';
-import { errorHandler } from './middleware/errorHandler.middleware.js';
-import { routes } from './routes/index.js';
-import { healthRouter } from './routes/health.routes.js';
-import { config } from './config/env.js';
+import { requestLogger } from './middleware/requestLogger.middleware';
+import { errorHandler } from './middleware/errorHandler.middleware';
+import { routes } from './routes/index';
+import { healthRouter } from './routes/health.routes';
+import { config } from './config/env';
 
 // Rate limiter for auth routes — 20 requests per 15 minutes per IP
 const authLimiter = rateLimit({
@@ -42,7 +42,9 @@ export function createApp(): Application {
   const app = express();
 
   // Security headers
-  app.use(helmet());
+  app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' }
+  }));
 
   // CORS
   app.use(cors({ origin: config.clientUrl }));

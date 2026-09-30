@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { healthRouter } from './health.routes.js';
-import { authRouter } from './auth.routes.js';
-import { endpointRouter } from './endpoint.routes.js';
-import { eventIngestRouter, eventQueryRouter } from './event.routes.js';
-import { deliveryRouter } from './delivery.routes.js';
-import { apiKeyRouter } from './apiKey.routes.js';
+import { healthRouter } from './health.routes';
+import { authRouter } from './auth.routes';
+import { endpointRouter } from './endpoint.routes';
+import { eventIngestRouter, eventQueryRouter } from './event.routes';
+import { deliveryRouter } from './delivery.routes';
+import { apiKeyRouter } from './apiKey.routes';
 
 export const routes = Router();
 

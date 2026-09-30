@@ -1,8 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Role } from '@prisma/client';
-import { ApiKeyService } from '../services/apiKey.service.js';
-import { requireAuth } from '../middleware/auth.middleware.js';
-import { requireRole } from '../middleware/rbac.middleware.js';
+import { ApiKeyService } from '../services/apiKey.service';
+import { requireAuth } from '../middleware/auth.middleware';
+import { requireRole } from '../middleware/rbac.middleware';
 import { z } from 'zod';
 
 // Routes are mounted under /v1/orgs/:orgId/api-keys

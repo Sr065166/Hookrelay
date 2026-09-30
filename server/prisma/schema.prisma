@@ -129,6 +129,7 @@ model Delivery {
   endpointId    String         @map("endpoint_id")
   status        DeliveryStatus @default(PENDING)
   nextRetryAt   DateTime?      @map("next_retry_at")
+  lockedAt      DateTime?      @map("locked_at")
   attemptsCount Int            @default(0) @map("attempts_count")
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @updatedAt @map("updated_at")

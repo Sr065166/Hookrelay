@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
-import { prisma } from '../config/database.js';
-import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../middleware/auth.middleware.js';
-import { ConflictError, UnauthorizedError } from '../errors/AppError.js';
-import type { RegisterInput, LoginInput } from '../validators/auth.validator.js';
+import { prisma } from '../config/database';
+import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../middleware/auth.middleware';
+import { ConflictError, UnauthorizedError } from '../errors/AppError';
+import type { RegisterInput, LoginInput } from '../validators/auth.validator';
 
 const SALT_ROUNDS = 12;
 
@@ -19,11 +19,24 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(input.password, SALT_ROUNDS);
 
+    const slug = `${(input.name || 'user').toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now().toString(36)}`;
+
     const user = await prisma.user.create({
       data: {
         email: input.email,
         name: input.name,
         passwordHash,
+        memberships: {
+          create: {
+            role: 'OWNER',
+            organization: {
+              create: {
+                name: `${input.name || 'User'}'s Organization`,
+                slug,
+              }
+            }
+          }
+        }
       },
       select: { id: true, email: true, name: true, createdAt: true },
     });

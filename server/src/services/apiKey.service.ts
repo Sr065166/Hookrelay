@@ -1,6 +1,6 @@
-import { generateApiKey } from '../middleware/auth.middleware.js';
-import { prisma } from '../config/database.js';
-import { NotFoundError } from '../errors/AppError.js';
+import { generateApiKey } from '../middleware/auth.middleware';
+import { prisma } from '../config/database';
+import { NotFoundError } from '../errors/AppError';
 
 export class ApiKeyService {
   /**
