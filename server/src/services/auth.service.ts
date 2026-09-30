@@ -86,7 +86,20 @@ export class AuthService {
   static async getProfile(userId: string) {
     return prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, email: true, name: true, createdAt: true },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+        memberships: {
+          select: {
+            role: true,
+            organization: {
+              select: { id: true, name: true, slug: true }
+            }
+          }
+        }
+      },
     });
   }
 }
