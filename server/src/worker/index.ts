@@ -36,7 +36,7 @@ export function stopWorker() {
   }
 }
 
-async function processDeliveries() {
+export async function processDeliveries() {
   try {
     // Claim jobs atomically
     const deliveries: any[] = await prisma.$queryRawUnsafe(`

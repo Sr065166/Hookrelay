@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: hookrelay_test
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5433/hookrelay_test?schema=public
+      JWT_ACCESS_SECRET: test_secret_access_test_secret_access_test_secret_access_test_secret_access
+      JWT_REFRESH_SECRET: test_secret_refresh_test_secret_refresh_test_secret_refresh_test_secret_refresh
+      PORT: 4000
+      NODE_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npm run db:generate --workspace=server
+
+      - name: Run Prisma Migrations
+        run: npx prisma migrate deploy
+        working-directory: ./server
+
+      - name: Run tests (Server)
+        run: npm run test --workspace=server
+
+      - name: Build (Server)
+        run: npm run build --workspace=server
+
+      - name: Build (Web)
+        run: npm run build --workspace=web
