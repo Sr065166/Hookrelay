@@ -240,7 +240,7 @@ The following environment variables must be configured in production:
 - `PORT`: The port the server will bind to (e.g., 4000).
 - `NODE_ENV`: Must be set to `production`.
 - `DATABASE_URL`: Connection string to the production PostgreSQL database.
-- `CLIENT_URL`: The URL of the production frontend (e.g., `https://hookrelay-web.onrender.com`). Required for CORS.
+- `CLIENT_URL`: The URL of the production frontend (e.g., `https://web-sahil-s-projects22.vercel.app`). Required for CORS.
 - `JWT_ACCESS_SECRET`: Secure, randomly generated secret (min 64 chars) for signing access tokens.
 - `JWT_REFRESH_SECRET`: Secure, randomly generated secret (min 64 chars) for signing refresh tokens.
 - `JWT_ACCESS_EXPIRES_IN`: Expiration duration for access tokens (e.g., `15m`).
